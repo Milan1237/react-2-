@@ -1,6 +1,4 @@
 import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
 import "./App.css";
 const brand = [
   { id: 1, name: "Puma", count: 1 },
@@ -9,7 +7,7 @@ const brand = [
   { id: 4, name: "Asian", count: 1 },
   { id: 5, name: "HRX", count: 1 },
   { id: 6, name: "Campus", count: 1 },
-  { id: 7, name: "Wow", count: 1 },
+  { id: 7, name: "Wow", count: 1 }
 ];
 
 function App() {
@@ -23,12 +21,15 @@ function App() {
   }
   function addTocart(id) {
     if (id) {
-      let itemCard = products.find((value) => value.id == id) ;
-    
+      let itemCard = products.find((value) => value.id == id);
       if (cart.some((element) => element.id == id)) {
-        setCart(cart.map((value)=>{
-           return value.id == id ? {...value, count: value.count + 1} : value ;  
-        }))
+        setCart(
+          cart.map((value) => {
+            return value.id == id
+              ? { ...value, count: value.count + 1 }
+              : value;
+          })
+        );
       } else {
         setCart([...cart, itemCard]);
       }
@@ -45,7 +46,7 @@ function App() {
       <input type="text" placeholder="Search Here" onKeyUp={handleChange} />
       <div onClick={(event) => addTocart(event.target.dataset.id)}>
         {products.map((pro) => (
-          <p key={pro.id} data-id={pro.id}>
+          <p key={pro.id}>
             {pro.name} <button data-id={pro.id}>Add to cart</button>
           </p>
         ))}
