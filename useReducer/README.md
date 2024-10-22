@@ -1,8 +1,36 @@
-# React + Vite
+useReducer hook is used when state management depends on more complex logi;
+```javascript
+import React, { useReducer } from "react";
+import { products } from "./Database/products";
+import { filterData } from "./filterData.js";
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+const Ecom = () => {
+    const [{budget , discount , rating} , dispatchFilter ] = useReducer(filterData , {budget: '' , discount: '' , rating: ''})
 
-Currently, two official plugins are available:
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+    let onBudgetChange = budget.length > 0 ? products.filter(({price})=> price <= budget   ) : products ; 
+    let onDiscountChange =  discount.length > 0 ? onBudgetChange.filter(({discountRate})=>  discount <  discountRate ) : onBudgetChange ; 
+    let onRatingChange = rating.length > 0 ? onDiscountChange.filter(({rating: prorating})=>   Number(rating) < Number(prorating)  ) : onDiscountChange ; 
+
+  return (
+    <>
+      <div className="filterContainer">
+        <input type="text" value={budget} onChange={(event)=> dispatchFilter({type:"BUDGET" , value: event.target.value})} placeholder="Enter your budget" />
+        <input type="text" value={discount} onChange={(event)=> dispatchFilter({type:"DISCOUNT" , value: event.target.value})} placeholder="Enter discount" />
+        <input type="text" value={rating} onChange={(event)=> dispatchFilter({type:"RATING" , value: event.target.value})} placeholder="Enter your rating" />
+      </div>
+      <div className="products d-flex">
+        {onRatingChange.map((pro) => (
+          <div className="product">
+            <p>{pro.brandName} || Price: {pro.price} || rating: {pro.rating} </p>
+            <p>Discount: {pro.discountRate}</p>
+          </div>
+        ))}
+      </div>
+    </>
+  );
+};
+
+export default Ecom;
+
+```
