@@ -1,11 +1,11 @@
-import { useContext , createContext , useReducer } from "react";
+import { useContext , createContext , useReducer, useState } from "react";
 import { products } from "../../public/Database/products";
 import { reducerFunction } from "./reducerFunction";
 
 //step 1 create the context with initial value 
 const initialValue = {
     cart: [] , 
-    products: products
+    products: products,
 }
 
 const Context = createContext(initialValue);
@@ -14,9 +14,10 @@ const Context = createContext(initialValue);
 
 export function ContextComponent({children}){
     const [{cart , products} , dispatchValue] = useReducer(reducerFunction , initialValue );
+    const [isLogin , setLogin] = useState(false);
     return (
         <>
-        <Context.Provider value={{cart , products , dispatchValue}}>
+        <Context.Provider value={{cart , products , dispatchValue , isLogin , setLogin}}>
             {children}
         </Context.Provider>
         </>

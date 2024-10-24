@@ -76,3 +76,7 @@ button:focus-visible {
   border: 2px solid blue;
   width: 280px;
 }
+.color-red{
+  color: red;
+  background-color: blueviolet;
+}
